@@ -1,2 +1,3 @@
-#Your onid folder should contain a readme file that contains your name and your onid
-My name is John Bonham, bonhamj 
+John Bonham, bonhamj
+
+This is my assignment-1 submission!
