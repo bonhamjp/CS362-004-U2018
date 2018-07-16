@@ -161,7 +161,7 @@ void test_scenario_6(struct gameState* freshState, struct gameState* testState) 
 
   // SETUP
   int assertionsPassed = 0;
-  // setup_test(freshState, testState, 0, 0);
+
   int bonus;
   memcpy(testState, freshState, sizeof(struct gameState));
 
@@ -187,7 +187,7 @@ void test_scenario_7(struct gameState* freshState, struct gameState* testState) 
 
   // SETUP
   int assertionsPassed = 0;
-  // setup_test(freshState, testState, 0, 0);
+
   int bonus;
   memcpy(testState, freshState, sizeof(struct gameState));
 

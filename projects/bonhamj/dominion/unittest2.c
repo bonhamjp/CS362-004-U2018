@@ -32,20 +32,36 @@ void print_test_results(int assertionsPassed) {
   }
 }
 
-void setup_test(struct gameState* freshState, struct gameState* testState, int handPos) {
-  // tbd
+void setup_test(struct gameState* freshState, struct gameState* testState) {
+  // copy fresh state
+  memcpy(testState, freshState, sizeof(struct gameState));
 }
 
 void test_scenario_1(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #1 ...\n");
+  printf("  #1 returns the hand count for the current user\n");
 
   // SETUP
   int assertionsPassed = 0;
-  setup_test(freshState, testState, 0);
+  setup_test(freshState, testState);
 
   // ASSERTIONS
+  // returns hand card for position specified, for current player
+  testState->whoseTurn = 0;
+  assert(handCard(0 , testState) == testState->hand[0][0]);
+  assertionsPassed++;
+  assert(handCard(1 , testState) == testState->hand[0][1]);
+  assertionsPassed++;
+  assert(handCard((testState->handCount[0] - 1) , testState) == testState->hand[0][(testState->handCount[0] - 1)]);
+  assertionsPassed++;
 
+  testState->whoseTurn = 1;
+  assert(handCard(0 , testState) == testState->hand[1][0]);
+  assertionsPassed++;
+  assert(handCard(1 , testState) == testState->hand[1][1]);
+  assertionsPassed++;
+  assert(handCard((testState->handCount[1] - 1) , testState) == testState->hand[1][(testState->handCount[1] - 1)]);
+  assertionsPassed++;
 
   // PRINT TEST RESULTS
   print_test_results(assertionsPassed);
