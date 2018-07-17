@@ -20,15 +20,15 @@
 
 #define TESTCARD "Adventurer"
 
-void print_test_results(int assertionsPassed) {
-  if(assertionsPassed > 0) {
-    printf("    ");
+// non-halting assert
+void j_assert(_Bool assertionPassed) {
+  // test passed
+  if(assertionPassed) {
+    printf("+");
 
-    int i;
-    for(i = 0;i < assertionsPassed;i++) {
-      printf("+");
-    }
-    printf("\n\n");
+  // test failed
+  } else {
+    printf("f");
   }
 }
 
@@ -41,16 +41,14 @@ void setup_test(struct gameState* freshState, struct gameState* testState) {
 
 void test_scenario_1(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #1 draws an extra copper card into hand, from player deck\n");
+  printf("  #1 draws an extra copper card into hand, from player deck\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState);
 
   // ASSERTIONS
   // an extra treasure card was drawn from players deck
-  assert((freshState->handCount[0] + 1) == testState->handCount[0]);
-  assertionsPassed++;
+  j_assert((freshState->handCount[0] + 1) == testState->handCount[0]);
 
   // calculate starting copper
   int startingCopperInHand = 0;
@@ -68,100 +66,86 @@ void test_scenario_1(struct gameState* freshState, struct gameState* testState) 
   }
 
   // the player has an extra copper in their hand now
-  assert((startingCopperInHand + 1) == endingCopperInHand);
-  assertionsPassed++;
+  j_assert((startingCopperInHand + 1) == endingCopperInHand);
 
   // the player has one less card in their hand, after removing a copper
-  assert((freshState->deckCount[0] - 1) == testState->deckCount[0]);
-  assertionsPassed++;
+  j_assert((freshState->deckCount[0] - 1) == testState->deckCount[0]);
 
   // other players have the same number of cards in their hand
-  assert(freshState->handCount[1] == testState->handCount[1]);
-  assertionsPassed++;
+  j_assert(freshState->handCount[1] == testState->handCount[1]);
 
   // other players have the same number of cards in their deck
-  assert(freshState->deckCount[1] == testState->deckCount[1]);
-  assertionsPassed++;
+  j_assert(freshState->deckCount[1] == testState->deckCount[1]);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_2(struct gameState* freshState, struct gameState* testState) {
     // TITLE
-    printf("  #2 the supply of copper is not depleted\n");
+    printf("  #2 the supply of copper is not depleted\n    ");
 
     // SETUP
-    int assertionsPassed = 0;
     setup_test(freshState, testState);
 
     // ASSERTIONS
     // the copper supply count has not changed
-    assert(freshState->supplyCount[copper] == testState->supplyCount[copper]);
-    assertionsPassed++;
+    j_assert(freshState->supplyCount[copper] == testState->supplyCount[copper]);
 
-    // PRINT TEST RESULTS
-    print_test_results(assertionsPassed);
+    // clear line for next test
+    printf("\n\n");
 }
 
 void test_scenario_3(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #3 coin count is not altered\n");
+  printf("  #3 coin count is not altered\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState);
 
   // ASSERTIONS
   // there are no added coins in play, after playing adventurer
   // starts with 4 coins
-  assert(testState->coins == 4);
-  assertionsPassed++;
+  j_assert(testState->coins == 4);
 
   // same number of coins after playing adventurer, as beginning state
-  assert(freshState->coins == testState->coins);
-  assertionsPassed++;
+  j_assert(freshState->coins == testState->coins);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_4(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #4 discard card count does not increase\n");
+  printf("  #4 discard card count does not increase\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState);
 
   // ASSERTIONS
   // the discard card count stays the same, for the player
-  assert(freshState->discardCount[0] == testState->discardCount[0]);
-  assertionsPassed++;
+  j_assert(freshState->discardCount[0] == testState->discardCount[0]);
 
   // the discard card count stays the same, for other players
-  assert(freshState->discardCount[1] == testState->discardCount[1]);
-  assertionsPassed++;
+  j_assert(freshState->discardCount[1] == testState->discardCount[1]);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_5(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #5 played card count does not increase\n");
+  printf("  #5 played card count does not increase\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState);
 
   // ASSERTIONS
   // the played card count stays the same
-  assert(freshState->playedCardCount == testState->playedCardCount);
-  assertionsPassed++;
+  j_assert(freshState->playedCardCount == testState->playedCardCount);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 int main() {

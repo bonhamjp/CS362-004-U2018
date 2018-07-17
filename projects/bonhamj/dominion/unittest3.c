@@ -20,15 +20,15 @@
 
 #define TESTFUNCTION "supplyCount"
 
-void print_test_results(int assertionsPassed) {
-  if(assertionsPassed > 0) {
-    printf("    ");
+// non-halting assert
+void j_assert(_Bool assertionPassed) {
+  // test passed
+  if(assertionPassed) {
+    printf("+");
 
-    int i;
-    for(i = 0;i < assertionsPassed;i++) {
-      printf("+");
-    }
-    printf("\n\n");
+  // test failed
+  } else {
+    printf("f");
   }
 }
 
@@ -39,30 +39,26 @@ void setup_test(struct gameState* freshState, struct gameState* testState) {
 
 void test_scenario_1(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #1 returns the supply count, for the card specified\n");
+  printf("  #1 returns the supply count, for the card specified\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState);
 
   // ASSERTIONS
   // card has no supply
   testState->supplyCount[sea_hag] = -1;
-  assert(supplyCount(sea_hag , testState) == -1);
-  assertionsPassed++;
+  j_assert(supplyCount(sea_hag , testState) == -1);
 
   // card has some supply
   testState->supplyCount[great_hall] = 10;
-  assert(supplyCount(great_hall, testState) == 10);
-  assertionsPassed++;
+  j_assert(supplyCount(great_hall, testState) == 10);
 
   // card has many supply
   testState->supplyCount[gold] = MAX_DECK;
-  assert(supplyCount(gold, testState) == MAX_DECK);
-  assertionsPassed++;
+  j_assert(supplyCount(gold, testState) == MAX_DECK);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 int main() {

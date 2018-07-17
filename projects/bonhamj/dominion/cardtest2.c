@@ -20,15 +20,15 @@
 
 #define TESTCARD "Embargo"
 
-void print_test_results(int assertionsPassed) {
-  if(assertionsPassed > 0) {
-    printf("    ");
+// non-halting assert
+void j_assert(_Bool assertionPassed) {
+  // test passed
+  if(assertionPassed) {
+    printf("+");
 
-    int i;
-    for(i = 0;i < assertionsPassed;i++) {
-      printf("+");
-    }
-    printf("\n\n");
+  // test failed
+  } else {
+    printf("f");
   }
 }
 
@@ -41,28 +41,24 @@ void setup_test(struct gameState* freshState, struct gameState* testState, int c
 
 void test_scenario_1(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #1 adds 3 coins to players coins in play\n");
+  printf("  #1 adds 3 coins to players coins in play\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState, 0, 0);
 
   // ASSERTIONS
   // 3 more coins than when game started
-  assert((freshState->coins + 3) == testState->coins);
-  assertionsPassed++;
+  j_assert((freshState->coins + 3) == testState->coins);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_2(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #2 does not increase embargo count for coin, if supply choice is out\n");
+  printf("  #2 does not increase embargo count for coin, if supply choice is out\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
-  // setup_test(freshState, testState, 0, 0);
   int bonus;
   memcpy(testState, freshState, sizeof(struct gameState));
 
@@ -73,24 +69,21 @@ void test_scenario_2(struct gameState* freshState, struct gameState* testState) 
 
   // ASSERTIONS
   // the embargo count for the chosen coin is not increased
-  assert((freshState->embargoTokens[copper]) == testState->embargoTokens[copper]);
-  assertionsPassed++;
+  j_assert((freshState->embargoTokens[copper]) == testState->embargoTokens[copper]);
 
   // the embargo count for other coins are not increased
-  assert((freshState->embargoTokens[silver]) == testState->embargoTokens[silver]);
-  assertionsPassed++;
+  j_assert((freshState->embargoTokens[silver]) == testState->embargoTokens[silver]);
 
   // the embargo count for other coins are not increased
-  assert((freshState->embargoTokens[gold]) == testState->embargoTokens[gold]);
-  assertionsPassed++;
+  j_assert((freshState->embargoTokens[gold]) == testState->embargoTokens[gold]);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_3(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #3 increases embargo count of coin, if supply choice is not out\n");
+  printf("  #3 increases embargo count of coin, if supply choice is not out\n    ");
 
   // SETUP
   int assertionsPassed = 0;
@@ -98,70 +91,59 @@ void test_scenario_3(struct gameState* freshState, struct gameState* testState) 
 
   // ASSERTIONS
   // the embargo count for the chosen coin is increased
-  assert((freshState->embargoTokens[copper] + 1) == testState->embargoTokens[copper]);
-  assertionsPassed++;
+  j_assert((freshState->embargoTokens[copper] + 1) == testState->embargoTokens[copper]);
 
   // the embargo count for other coins are not increased
-  assert((freshState->embargoTokens[silver]) == testState->embargoTokens[silver]);
-  assertionsPassed++;
+  j_assert((freshState->embargoTokens[silver]) == testState->embargoTokens[silver]);
 
   // the embargo count for other coins are not increased
-  assert((freshState->embargoTokens[gold]) == testState->embargoTokens[gold]);
-  assertionsPassed++;
+  j_assert((freshState->embargoTokens[gold]) == testState->embargoTokens[gold]);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_4(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #4 hand count is decreased by 1, if supply choice is not out\n");
+  printf("  #4 hand count is decreased by 1, if supply choice is not out\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState, copper, 0);
 
   // ASSERTIONS
   // the hand count decreases by 1
-  assert((freshState->handCount[0] - 1) == testState->handCount[0]);
-  assertionsPassed++;
+  j_assert((freshState->handCount[0] - 1) == testState->handCount[0]);
 
   // the hand count does not decrease for other players
-  assert((freshState->handCount[1]) == testState->handCount[1]);
-  assertionsPassed++;
+  j_assert((freshState->handCount[1]) == testState->handCount[1]);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_5(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #5 current card in hand is replaced by last card in hand, if supply choice is not out, and there are multiple cards in hand\n");
+  printf("  #5 current card in hand is replaced by last card in hand, if supply choice is not out, and there are multiple cards in hand\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState, copper, 0);
 
   // ASSERTIONS
   // the card from the last position in the hand is now in the place where the current card was
-  assert((freshState->hand[0][freshState->handCount[0] - 1]) == testState->hand[0][0]);
-  assertionsPassed++;
+  j_assert((freshState->hand[0][freshState->handCount[0] - 1]) == testState->hand[0][0]);
 
   // the card from the first position does not change for other players
-  assert((freshState->hand[1][0]) == testState->hand[1][0]);
-  assertionsPassed++;
+  j_assert((freshState->hand[1][0]) == testState->hand[1][0]);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_6(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #6 current card in hand does not change, if supply choice is not out, and player discards last card\n");
+  printf("  #6 current card in hand does not change, if supply choice is not out, and player discards last card\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
-
   int bonus;
   memcpy(testState, freshState, sizeof(struct gameState));
 
@@ -174,20 +156,17 @@ void test_scenario_6(struct gameState* freshState, struct gameState* testState) 
 
   // ASSERTIONS
   // the card from first position is not changed for the player
-  assert((freshState->hand[0][0]) == testState->hand[0][0]);
-  assertionsPassed++;
+  j_assert((freshState->hand[0][0]) == testState->hand[0][0]);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_7(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #7 player is left with empty hand, if supply choice is not out, and there is only a single card in hand\n");
+  printf("  #7 player is left with empty hand, if supply choice is not out, and there is only a single card in hand\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
-
   int bonus;
   memcpy(testState, freshState, sizeof(struct gameState));
 
@@ -199,49 +178,43 @@ void test_scenario_7(struct gameState* freshState, struct gameState* testState) 
 
   // ASSERTIONS
   // the player has no cards in their hand
-  assert(testState->handCount[0] == 0);
-  assertionsPassed++;
+  j_assert(testState->handCount[0] == 0);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_8(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #8 discard card count does not increase\n");
+  printf("  #8 discard card count does not increase\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState, copper, 0);
 
   // ASSERTIONS
   // the discard card count stays the same, for the player
-  assert(freshState->discardCount[0] == testState->discardCount[0]);
-  assertionsPassed++;
+  j_assert(freshState->discardCount[0] == testState->discardCount[0]);
 
   // the discard card count stays the same, for other players
-  assert(freshState->discardCount[1] == testState->discardCount[1]);
-  assertionsPassed++;
+  j_assert(freshState->discardCount[1] == testState->discardCount[1]);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_9(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #9 played card count does not increase\n");
+  printf("  #9 played card count does not increase\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState, copper, 0);
 
   // ASSERTIONS
   // the played card count stays the same
-  assert(freshState->playedCardCount == testState->playedCardCount);
-  assertionsPassed++;
+  j_assert(freshState->playedCardCount == testState->playedCardCount);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 int main() {

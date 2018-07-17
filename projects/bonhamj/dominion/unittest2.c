@@ -20,15 +20,15 @@
 
 #define TESTFUNCTION "handCard"
 
-void print_test_results(int assertionsPassed) {
-  if(assertionsPassed > 0) {
-    printf("    ");
+// non-halting assert
+void j_assert(_Bool assertionPassed) {
+  // test passed
+  if(assertionPassed) {
+    printf("+");
 
-    int i;
-    for(i = 0;i < assertionsPassed;i++) {
-      printf("+");
-    }
-    printf("\n\n");
+  // test failed
+  } else {
+    printf("f");
   }
 }
 
@@ -39,32 +39,25 @@ void setup_test(struct gameState* freshState, struct gameState* testState) {
 
 void test_scenario_1(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #1 returns the hand count for the current user\n");
+  printf("  #1 returns the hand count for the current user\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState);
 
   // ASSERTIONS
   // returns hand card for position specified, for current player
   testState->whoseTurn = 0;
-  assert(handCard(0 , testState) == testState->hand[0][0]);
-  assertionsPassed++;
-  assert(handCard(1 , testState) == testState->hand[0][1]);
-  assertionsPassed++;
-  assert(handCard((testState->handCount[0] - 1) , testState) == testState->hand[0][(testState->handCount[0] - 1)]);
-  assertionsPassed++;
+  j_assert(handCard(0 , testState) == testState->hand[0][0]);
+  j_assert(handCard(1 , testState) == testState->hand[0][1]);
+  j_assert(handCard((testState->handCount[0] - 1) , testState) == testState->hand[0][(testState->handCount[0] - 1)]);
 
   testState->whoseTurn = 1;
-  assert(handCard(0 , testState) == testState->hand[1][0]);
-  assertionsPassed++;
-  assert(handCard(1 , testState) == testState->hand[1][1]);
-  assertionsPassed++;
-  assert(handCard((testState->handCount[1] - 1) , testState) == testState->hand[1][(testState->handCount[1] - 1)]);
-  assertionsPassed++;
+  j_assert(handCard(0 , testState) == testState->hand[1][0]);
+  j_assert(handCard(1 , testState) == testState->hand[1][1]);
+  j_assert(handCard((testState->handCount[1] - 1) , testState) == testState->hand[1][(testState->handCount[1] - 1)]);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 int main() {

@@ -20,15 +20,15 @@
 
 #define TESTFUNCTION "buyCard"
 
-void print_test_results(int assertionsPassed) {
-  if(assertionsPassed > 0) {
-    printf("    ");
+// non-halting assert
+void j_assert(_Bool assertionPassed) {
+  // test passed
+  if(assertionPassed) {
+    printf("+");
 
-    int i;
-    for(i = 0;i < assertionsPassed;i++) {
-      printf("+");
-    }
-    printf("\n\n");
+  // test failed
+  } else {
+    printf("f");
   }
 }
 
@@ -39,29 +39,26 @@ void setup_test(struct gameState* freshState, struct gameState* testState, int s
 
 void test_scenario_1(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #1 the current player does not have any buys left\n");
+  printf("  #1 the current player does not have any buys left\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState, 0);
 
   testState->numBuys = 0;
 
   // ASSERTIONS
   // returns -1 if the player has no buys
-  assert(buyCard(minion, testState) == -1);
-  assertionsPassed++;
+  j_assert(buyCard(minion, testState) == -1);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_2(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #2 player has buys left, but no cards are left in supply, for card specified\n");
+  printf("  #2 player has buys left, but no cards are left in supply, for card specified\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState, 0);
 
   testState->numBuys = 1;
@@ -69,19 +66,17 @@ void test_scenario_2(struct gameState* freshState, struct gameState* testState) 
 
   // ASSERTIONS
   // returns -1 if the there are no cards left in supply
-  assert(buyCard(minion, testState) == -1);
-  assertionsPassed++;
+  j_assert(buyCard(minion, testState) == -1);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_3(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #3 player can buy, and there are enough cards in supply, but player does not have enough coins\n");
+  printf("  #3 player can buy, and there are enough cards in supply, but player does not have enough coins\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState, 0);
 
   testState->numBuys = 1;
@@ -90,19 +85,17 @@ void test_scenario_3(struct gameState* freshState, struct gameState* testState) 
 
   // ASSERTIONS
   // returns -1 if the there are no cards left in supply
-  assert(buyCard(baron, testState) == -1);
-  assertionsPassed++;
+  j_assert(buyCard(baron, testState) == -1);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 void test_scenario_4(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #3 player can buy, and there are enough cards in supply, and the player does have enough coins\n");
+  printf("  #3 player can buy, and there are enough cards in supply, and the player does have enough coins\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState, 0);
 
   testState->numBuys = 1;
@@ -112,34 +105,27 @@ void test_scenario_4(struct gameState* freshState, struct gameState* testState) 
   int returnValue = buyCard(remodel, testState);
 
   // ASSERTIONS
-
   // state phase changes
-  assert(freshState->phase != testState->phase);
-  assertionsPassed++;
+  j_assert(freshState->phase != testState->phase);
 
   // state phase goes to 1
-  assert(testState->phase == 1);
-  assertionsPassed++;
+  j_assert(testState->phase == 1);
 
   // wrong! should be added to hand!
   // card added to discard
-  assert(testState->discardCount[0] == 1);
-  assertionsPassed++;
+  j_assert(testState->discardCount[0] == 1);
 
   // discard count increases
-  assert(testState->discard[0][0] == remodel);
-  assertionsPassed++;
+  j_assert(testState->discard[0][0] == remodel);
 
   // card count subtracted from coins
-  assert((freshState->coins - getCost(remodel)) == testState->coins);
-  assertionsPassed++;
+  j_assert((freshState->coins - getCost(remodel)) == testState->coins);
 
   // number of buys count subtracted by 1
-  assert((freshState->numBuys - 1) == testState->numBuys);
-  assertionsPassed++;
+  j_assert((freshState->numBuys - 1) == testState->numBuys);
 
-  // PRINT TEST RESULTS
-  print_test_results(assertionsPassed);
+  // clear line for next test
+  printf("\n\n");
 }
 
 int main() {
