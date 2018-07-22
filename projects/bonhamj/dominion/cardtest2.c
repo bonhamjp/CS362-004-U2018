@@ -104,14 +104,27 @@ void test_scenario_3(struct gameState* freshState, struct gameState* testState) 
 
 void test_scenario_4(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #4 hand count is decreased by 1, if supply choice is not out\n    ");
+  printf("  #4 hand count and is decreased by 1, and coins increase only if card is embargoed\n    ");
 
   // SETUP
   setup_test(freshState, testState, copper, 0);
 
   // ASSERTIONS
-  // the hand count decreases by 1
+  // the hand count decreases by 1, if embargo supply is not out, coins added
   j_assert((freshState->handCount[0] - 1) == testState->handCount[0]);
+  j_assert(testState->coins == 2);
+
+  // the hand count decreases by 1, if embargo supply is out
+  // SETUP
+  int bonus;
+  memcpy(testState, freshState, sizeof(struct gameState));
+
+  // empty supply for choice1, hand count stays the same, no coins
+  testState->supplyCount[copper] = -1;
+
+  cardEffect(embargo, copper, 0, 0, testState, 0, &bonus);
+  j_assert((freshState->handCount[0]) == testState->handCount[0]);
+  j_assert(testState->coins == 0);
 
   // the hand count does not decrease for other players
   j_assert((freshState->handCount[1]) == testState->handCount[1]);

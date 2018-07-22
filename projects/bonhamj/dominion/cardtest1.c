@@ -319,6 +319,41 @@ void test_scenario_13(struct gameState* freshState, struct gameState* testState)
   printf("\n\n");
 }
 
+void test_scenario_14(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #14 discard pile is shuffled into deck, if deck is out before treasure is all found \n    ");
+
+  // SETUP
+  // play card, from fresh state
+  int bonus;
+  memcpy(testState, freshState, sizeof(struct gameState));
+
+  testState->discardCount[0] = 5;
+  testState->discard[0][0] = copper;
+  testState->discard[0][1] = copper;
+  testState->discard[0][2] = copper;
+  testState->discard[0][3] = copper;
+  testState->discard[0][4] = copper;
+  testState->deckCount[0] = 0;
+
+  cardEffect(adventurer, 0, 0, 0, testState, 0, &bonus);
+
+  // ASSERTIONS
+  // discard pile removed
+  j_assert(testState->discardCount[0] == 0);
+  // non-treasure cards from discard left in deck
+  j_assert(testState->deckCount[0] == 3);
+
+  // other player discard count is not changed
+  j_assert(freshState->discardCount[1] == testState->discardCount[1]);
+
+  // other player deck count not changed
+  j_assert(freshState->deckCount[1] == testState->deckCount[1]);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
 int main() {
   // control test settings
   int numberOfPlayers = 2;
@@ -359,6 +394,7 @@ int main() {
   test_scenario_11(&freshState, &testState);
   test_scenario_12(&freshState, &testState);
   test_scenario_13(&freshState, &testState);
+  test_scenario_14(&freshState, &testState);
 
   return 0;
 }

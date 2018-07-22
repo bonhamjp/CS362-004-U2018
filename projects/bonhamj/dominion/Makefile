@@ -30,7 +30,6 @@ runtests: testDrawCard
 	cat dominion.c.gcov >> unittestresult.out
 
 unittestresults: cardtest1.c cardtest2.c cardtest3.c cardtest4.c cardtest1.c cardtest2.c cardtest3.c cardtest4.c dominion.o interface.o rngs.o
-	# output file for unittests
 	touch unittestresults.out
 
 	gcc -o cardtest1 -g cardtest1.c -g dominion.o rngs.o interface.o $(CFLAGS)

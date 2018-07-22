@@ -68,7 +68,7 @@ void test_scenario_2(struct gameState* freshState, struct gameState* testState) 
   setup_test(freshState, testState, 0);
 
   testState->numBuys = 1;
-  testState->supplyCount[salvager] = 0;
+  testState->supplyCount[minion] = 0;
 
   // ASSERTIONS
   // returns -1 if the there are no cards left in supply
@@ -111,7 +111,7 @@ void test_scenario_3(struct gameState* freshState, struct gameState* testState) 
 
 void test_scenario_4(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #4 player can buy, and there are enough cards in supply, and the player does have enough coins, adds to hand\n    ");
+  printf("  #4 player can buy, and there are enough cards in supply, and the player does have enough coins, adds to discard\n    ");
 
   // SETUP
   setup_test(freshState, testState, 0);
@@ -129,11 +129,11 @@ void test_scenario_4(struct gameState* freshState, struct gameState* testState) 
   // state phase goes to 1
   j_assert(testState->phase == 1);
 
-  // card added to hand of player
-  j_assert((freshState->handCount[0] + 1) == testState->handCount[0]);
+  // card added to discard of player
+  j_assert((freshState->discardCount[0] + 1) == testState->discardCount[0]);
 
-  // hand stays the same for other players
-  j_assert((freshState->handCount[1]) == testState->handCount[1]);
+  // discard stays the same for other players
+  j_assert((freshState->discardCount[1]) == testState->discardCount[1]);
 
   // card count subtracted from coins
   j_assert((freshState->coins - getCost(remodel)) == testState->coins);
@@ -147,7 +147,7 @@ void test_scenario_4(struct gameState* freshState, struct gameState* testState) 
 
 void test_scenario_5(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #5 player can buy, and there are enough cards in supply, and the player does have enough coins, discard does not change\n    ");
+  printf("  #5 player can buy, and there are enough cards in supply, and the player does have enough coins, hand does not change\n    ");
 
   // SETUP
   setup_test(freshState, testState, 0);
@@ -159,11 +159,11 @@ void test_scenario_5(struct gameState* freshState, struct gameState* testState) 
   buyCard(remodel, testState);
 
   // ASSERTIONS
-  // discard count stays the same for player
-  j_assert(freshState->discardCount[0] == testState->discardCount[0]);
+  // hand count stays the same for player
+  j_assert(freshState->handCount[0] == testState->handCount[0]);
 
-  // discard count  stays the same for other players
-  j_assert(freshState->discardCount[1] == testState->discardCount[1]);
+  // hand count  stays the same for other players
+  j_assert(freshState->handCount[1] == testState->handCount[1]);
 
   // clear line for next test
   printf("\n\n");
