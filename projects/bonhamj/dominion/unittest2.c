@@ -291,7 +291,6 @@ int main() {
     great_hall,
     minion
   };
-  int bonus = 0;
 
   // initialize game with test setup
   initializeGame(numberOfPlayers, cards, seed, &freshState);

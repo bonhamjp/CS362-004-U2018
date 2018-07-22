@@ -147,7 +147,6 @@ void test_scenario_5(struct gameState* freshState, struct gameState* testState) 
 
   // SETUP
   // play card, from fresh state
-  bonus;
   memcpy(testState, freshState, sizeof(struct gameState));
 
   // first card is not treasure
@@ -176,7 +175,6 @@ void test_scenario_6(struct gameState* freshState, struct gameState* testState) 
 
   // SETUP
   // play card, from fresh state
-  int bonus;
   memcpy(testState, freshState, sizeof(struct gameState));
 
   // first cards are treasure cards
@@ -185,6 +183,7 @@ void test_scenario_6(struct gameState* freshState, struct gameState* testState) 
   testState->deck[0][3] = copper;
   testState->deck[0][4] = copper;
 
+  int bonus;
   cardEffect(adventurer, 0, 0, 0, testState, 0, &bonus);
 
   // ASSERTIONS
@@ -193,7 +192,6 @@ void test_scenario_6(struct gameState* freshState, struct gameState* testState) 
 
   // SETUP
   // play card, from fresh state
-  bonus;
   memcpy(testState, freshState, sizeof(struct gameState));
 
   // first cards are not treasure cards
@@ -340,7 +338,6 @@ int main() {
     great_hall,
     minion
   };
-  int bonus = 0;
 
   // initialize game with test setup
   initializeGame(numberOfPlayers, cards, seed, &freshState);

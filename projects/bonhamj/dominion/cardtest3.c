@@ -146,22 +146,7 @@ void test_scenario_5(struct gameState* freshState, struct gameState* testState) 
 
 void test_scenario_6(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #6 played card count does not increase\n    ");
-
-  // SETUP
-  setup_test(freshState, testState, 1, 0, 0, 0);
-
-  // ASSERTIONS
-  // the played card count stays the same
-  j_assert(freshState->playedCardCount == testState->playedCardCount);
-
-  // clear line for next test
-  printf("\n\n");
-}
-
-void test_scenario_7(struct gameState* freshState, struct gameState* testState) {
-  // TITLE
-  printf("  #7 does not change whoseTurn\n    ");
+  printf("  #6 does not change whoseTurn\n    ");
 
   // SETUP
   setup_test(freshState, testState, 1, 0, 0, 0);
@@ -174,9 +159,9 @@ void test_scenario_7(struct gameState* freshState, struct gameState* testState) 
   printf("\n\n");
 }
 
-void test_scenario_8(struct gameState* freshState, struct gameState* testState) {
+void test_scenario_7(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #8 does not change outpostPlayed\n    ");
+  printf("  #7 does not change outpostPlayed\n    ");
 
   // SETUP
   setup_test(freshState, testState, 1, 0, 0, 0);
@@ -189,9 +174,9 @@ void test_scenario_8(struct gameState* freshState, struct gameState* testState) 
   printf("\n\n");
 }
 
-void test_scenario_9(struct gameState* freshState, struct gameState* testState) {
+void test_scenario_8(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #9 does not change phase\n    ");
+  printf("  #8 does not change phase\n    ");
 
   // SETUP
   setup_test(freshState, testState, 1, 0, 0, 0);
@@ -204,9 +189,9 @@ void test_scenario_9(struct gameState* freshState, struct gameState* testState) 
   printf("\n\n");
 }
 
-void test_scenario_10(struct gameState* freshState, struct gameState* testState) {
+void test_scenario_9(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #10 does not change numActions\n    ");
+  printf("  #9 does not change numActions\n    ");
 
   // SETUP
   setup_test(freshState, testState, 1, 0, 0, 0);
@@ -219,9 +204,9 @@ void test_scenario_10(struct gameState* freshState, struct gameState* testState)
   printf("\n\n");
 }
 
-void test_scenario_11(struct gameState* freshState, struct gameState* testState) {
+void test_scenario_10(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #11 does not change numBuys\n    ");
+  printf("  #10 does not change numBuys\n    ");
 
   // SETUP
   setup_test(freshState, testState, 1, 0, 0, 0);
@@ -234,9 +219,9 @@ void test_scenario_11(struct gameState* freshState, struct gameState* testState)
   printf("\n\n");
 }
 
-void test_scenario_12(struct gameState* freshState, struct gameState* testState) {
+void test_scenario_11(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #12 does not change numPlayers \n    ");
+  printf("  #11 does not change numPlayers \n    ");
 
   // SETUP
   setup_test(freshState, testState, 1, 0, 0, 0);
@@ -249,9 +234,9 @@ void test_scenario_12(struct gameState* freshState, struct gameState* testState)
   printf("\n\n");
 }
 
-void test_scenario_13(struct gameState* freshState, struct gameState* testState) {
+void test_scenario_12(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #13 does change deckCount, by removing 2 from deck, if chosen \n    ");
+  printf("  #12 does change deckCount, by removing 2 from deck, if chosen \n    ");
 
   // SETUP
   setup_test(freshState, testState, 1, 0, 0, 0);
@@ -286,7 +271,6 @@ int main() {
     great_hall,
     minion
   };
-  int bonus = 0;
 
   // initialize game with test setup
   initializeGame(numberOfPlayers, cards, seed, &freshState);
@@ -307,7 +291,6 @@ int main() {
   test_scenario_10(&freshState, &testState);
   test_scenario_11(&freshState, &testState);
   test_scenario_12(&freshState, &testState);
-  test_scenario_13(&freshState, &testState);
 
   return 0;
 }

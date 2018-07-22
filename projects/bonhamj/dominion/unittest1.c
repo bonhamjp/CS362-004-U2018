@@ -120,7 +120,7 @@ void test_scenario_4(struct gameState* freshState, struct gameState* testState) 
   testState->supplyCount[remodel] = 1;
   testState->coins = getCost(remodel); // can afford remodel
 
-  int returnValue = buyCard(remodel, testState);
+  buyCard(remodel, testState);
 
   // ASSERTIONS
   // state phase changes
@@ -156,7 +156,7 @@ void test_scenario_5(struct gameState* freshState, struct gameState* testState) 
   testState->supplyCount[remodel] = 1;
   testState->coins = getCost(remodel); // can afford remodel
 
-  int returnValue = buyCard(remodel, testState);
+  buyCard(remodel, testState);
 
   // ASSERTIONS
   // discard count stays the same for player
@@ -311,7 +311,6 @@ int main() {
     great_hall,
     minion
   };
-  int bonus = 0;
 
   // initialize game with test setup
   initializeGame(numberOfPlayers, cards, seed, &freshState);

@@ -86,7 +86,6 @@ void test_scenario_3(struct gameState* freshState, struct gameState* testState) 
   printf("  #3 increases embargo count of coin, if supply choice is not out\n    ");
 
   // SETUP
-  int assertionsPassed = 0;
   setup_test(freshState, testState, copper, 0);
 
   // ASSERTIONS
@@ -344,7 +343,6 @@ int main() {
     great_hall,
     minion
   };
-  int bonus = 0;
 
   // initialize game with test setup
   initializeGame(numberOfPlayers, cards, seed, &freshState);
