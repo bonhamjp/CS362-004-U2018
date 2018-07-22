@@ -41,14 +41,14 @@ void setup_test(struct gameState* freshState, struct gameState* testState, int c
 
 void test_scenario_1(struct gameState* freshState, struct gameState* testState) {
   // TITLE
-  printf("  #1 adds 3 coins to players coins in play\n    ");
+  printf("  #1 adds 2 coins to players coins in play\n    ");
 
   // SETUP
   setup_test(freshState, testState, 0, 0);
 
   // ASSERTIONS
   // 3 more coins than when game started
-  j_assert((freshState->coins + 3) == testState->coins);
+  j_assert((freshState->coins + 2) == testState->coins);
 
   // clear line for next test
   printf("\n\n");
@@ -217,6 +217,114 @@ void test_scenario_9(struct gameState* freshState, struct gameState* testState) 
   printf("\n\n");
 }
 
+void test_scenario_10(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #10 does not change whoseTurn\n    ");
+
+  // SETUP
+  setup_test(freshState, testState, copper, 0);
+
+  // ASSERTIONS
+  // whoseTurn have not changed
+  j_assert(freshState->whoseTurn == testState->whoseTurn);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_11(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #11 does not change outpostPlayed\n    ");
+
+  // SETUP
+  setup_test(freshState, testState, copper, 0);
+
+  // ASSERTIONS
+  // outpostPlayed have not changed
+  j_assert(freshState->outpostPlayed == testState->outpostPlayed);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_12(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #12 does not change phase\n    ");
+
+  // SETUP
+  setup_test(freshState, testState, copper, 0);
+
+  // ASSERTIONS
+  // phase have not changed
+  j_assert(freshState->phase == testState->phase);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_13(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #13 does not change numActions\n    ");
+
+  // SETUP
+  setup_test(freshState, testState, copper, 0);
+
+  // ASSERTIONS
+  // numActions have not changed
+  j_assert(freshState->numActions == testState->numActions);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_14(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #14 does not change numBuys\n    ");
+
+  // SETUP
+  setup_test(freshState, testState, copper, 0);
+
+  // ASSERTIONS
+  // numBuys have not changed
+  j_assert(freshState->numBuys == testState->numBuys);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_15(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #15 does not change numPlayers \n    ");
+
+  // SETUP
+  setup_test(freshState, testState, copper, 0);
+
+  // ASSERTIONS
+  // numPlayers have not changed
+  j_assert(freshState->numPlayers == testState->numPlayers);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_16(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #16 does not change deckCounts \n    ");
+
+  // SETUP
+  setup_test(freshState, testState, copper, 0);
+
+  // ASSERTIONS
+  // current player deckCount not changed
+  j_assert(freshState->deckCount[0] == testState->deckCount[0]);
+
+  // other player deckCount not changed
+  j_assert(freshState->deckCount[1] == testState->deckCount[1]);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
 int main() {
   // control test settings
   int numberOfPlayers = 2;
@@ -254,6 +362,13 @@ int main() {
   test_scenario_7(&freshState, &testState);
   test_scenario_8(&freshState, &testState);
   test_scenario_9(&freshState, &testState);
+  test_scenario_10(&freshState, &testState);
+  test_scenario_11(&freshState, &testState);
+  test_scenario_12(&freshState, &testState);
+  test_scenario_13(&freshState, &testState);
+  test_scenario_14(&freshState, &testState);
+  test_scenario_15(&freshState, &testState);
+  test_scenario_16(&freshState, &testState);
 
   return 0;
 }

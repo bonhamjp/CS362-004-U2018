@@ -144,6 +144,129 @@ void test_scenario_5(struct gameState* freshState, struct gameState* testState) 
   printf("\n\n");
 }
 
+void test_scenario_6(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #6 played card count does not increase\n    ");
+
+  // SETUP
+  setup_test(freshState, testState, 1, 0, 0, 0);
+
+  // ASSERTIONS
+  // the played card count stays the same
+  j_assert(freshState->playedCardCount == testState->playedCardCount);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_7(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #7 does not change whoseTurn\n    ");
+
+  // SETUP
+  setup_test(freshState, testState, 1, 0, 0, 0);
+
+  // ASSERTIONS
+  // whoseTurn have not changed
+  j_assert(freshState->whoseTurn == testState->whoseTurn);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_8(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #8 does not change outpostPlayed\n    ");
+
+  // SETUP
+  setup_test(freshState, testState, 1, 0, 0, 0);
+
+  // ASSERTIONS
+  // outpostPlayed have not changed
+  j_assert(freshState->outpostPlayed == testState->outpostPlayed);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_9(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #9 does not change phase\n    ");
+
+  // SETUP
+  setup_test(freshState, testState, 1, 0, 0, 0);
+
+  // ASSERTIONS
+  // phase have not changed
+  j_assert(freshState->phase == testState->phase);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_10(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #10 does not change numActions\n    ");
+
+  // SETUP
+  setup_test(freshState, testState, 1, 0, 0, 0);
+
+  // ASSERTIONS
+  // numActions have not changed
+  j_assert(freshState->numActions == testState->numActions);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_11(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #11 does not change numBuys\n    ");
+
+  // SETUP
+  setup_test(freshState, testState, 1, 0, 0, 0);
+
+  // ASSERTIONS
+  // numBuys have not changed
+  j_assert(freshState->numBuys == testState->numBuys);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_12(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #12 does not change numPlayers \n    ");
+
+  // SETUP
+  setup_test(freshState, testState, 1, 0, 0, 0);
+
+  // ASSERTIONS
+  // numPlayers have not changed
+  j_assert(freshState->numPlayers == testState->numPlayers);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
+void test_scenario_13(struct gameState* freshState, struct gameState* testState) {
+  // TITLE
+  printf("  #13 does change deckCount, by removing 2 from deck, if chosen \n    ");
+
+  // SETUP
+  setup_test(freshState, testState, 1, 0, 0, 0);
+
+  // ASSERTIONS
+  // current player deckCount not changed
+  j_assert((freshState->deckCount[0] - 2) == testState->deckCount[0]);
+
+  // other player deckCount not changed
+  j_assert(freshState->deckCount[1] == testState->deckCount[1]);
+
+  // clear line for next test
+  printf("\n\n");
+}
+
 int main() {
   // control test settings
   int numberOfPlayers = 2;
@@ -177,6 +300,14 @@ int main() {
   test_scenario_3(&freshState, &testState);
   test_scenario_4(&freshState, &testState);
   test_scenario_5(&freshState, &testState);
+  test_scenario_6(&freshState, &testState);
+  test_scenario_7(&freshState, &testState);
+  test_scenario_8(&freshState, &testState);
+  test_scenario_9(&freshState, &testState);
+  test_scenario_10(&freshState, &testState);
+  test_scenario_11(&freshState, &testState);
+  test_scenario_12(&freshState, &testState);
+  test_scenario_13(&freshState, &testState);
 
   return 0;
 }
