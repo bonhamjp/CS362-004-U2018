@@ -199,8 +199,6 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
 }
 
 int shuffle(int player, struct gameState *state) {
-
-
   int newDeck[MAX_DECK];
   int newDeckPos = 0;
   int card;
@@ -648,7 +646,8 @@ int playAdventurer(int currentPlayer, int handPos, int drawntreasure, struct gam
   int temphand[MAX_HAND];
   int z = 0;
 
-  while(drawntreasure < 1) {
+  // while(drawntreasure < 1) {
+  while(drawntreasure < 2) {
     if (state->deckCount[currentPlayer] < 1) {//if the deck is empty we need to shuffle discard and add to deck
       shuffle(currentPlayer, state);
     }
@@ -676,7 +675,8 @@ int playAdventurer(int currentPlayer, int handPos, int drawntreasure, struct gam
 int playEmbargo(int choice1, int currentPlayer, int handPos, struct gameState *state)
 {
   //+2 Coins
-  state->coins = state->coins + 3;
+  // state->coins = state->coins + 3;
+  state->coins = state->coins + 2;
 
   //see if selected pile is in play
   if(state->supplyCount[choice1] == -1) {
@@ -752,7 +752,8 @@ int playSmithy(int currentPlayer, int handPos, struct gameState *state)
   int i;
 
   //+3 Cards
-  for (i = 0; i < 3; i += 2) {
+  // for (i = 0; i < 3; i += 2) {
+  for (i = 0; i < 3; i++) {
     drawCard(currentPlayer, state);
   }
 
