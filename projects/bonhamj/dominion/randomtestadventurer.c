@@ -29,33 +29,52 @@
 // number of treasure needed to prevent adventurer infinite loop
 #define MINIMUM_COPPER 3
 
+// keeps running tally of test results
+struct testResults {
+  int passedTests;
+  int failedTests;
+};
+
+// prints test results
+void print_test_results(struct testResults* results) {
+  // give success/failure counts
+  printf("%i tests run\n\n", results->passedTests + results->failedTests);
+  printf("SUCCESS: %i\n", results->passedTests);
+  printf("FAILURE: %i\n", results->failedTests);
+  printf("------------------------\n\n");
+}
+
 // non-halting assert
-void j_assert(_Bool assertionPassed) {
+void j_assert(_Bool assertionPassed, struct testResults* results) {
   // test passed
   if(assertionPassed) {
-    printf("+");
+    results->passedTests++;
 
   // test failed
   } else {
-    printf("f");
+    results->failedTests++;
   }
 }
 
 // randomize test state
-void test_randomized_adventurer(struct gameState* testState) {
+void test_randomized_adventurer(struct gameState* testState, struct testResults* results) {
   // fill entire structure with totally random bytes
   int i;
   for(i = 0;i < sizeof(struct gameState);i++) {
     // randomize each byte
-    ((char*) testState)[i] = floor(random() * 256);
+    ((char*) testState)[i] = floor(rand() * 256);
   }
 
-  // choose a random player
-  int player = rand() % (MAX_PLAYERS - 1);
-  testState->whoseTurn = player;
+  // select a random number of players, between 2, and MAX_PLAYERS
+  int maxPlayers = rand() % MAX_PLAYERS;
+  if(maxPlayers == 0 || maxPlayers == 1) {
+    maxPlayers = 2;
+  }
+  testState->numPlayers = maxPlayers;
 
-  // TODO: set random number of players
-  testState->numPlayers = MAX_PLAYERS;
+  // choose a random player
+  int player = rand() % (maxPlayers - 1);
+  testState->whoseTurn = player;
 
   // set randomized cards for player
   // leave room for the minimum number of treasure cards
@@ -129,13 +148,20 @@ void test_randomized_adventurer(struct gameState* testState) {
       preTreasureCount++;
     }
   }
+  int preWhoseTurn = testState->whoseTurn;
+  int prePhase = testState->phase;
+  int preNumActions = testState->numActions;
+  int prePlayedCardCount = testState->playedCardCount;
+  int preCoinCount = testState->coins;
+  int preNumBuys = testState->numBuys;
+  int preCopperCount = testState->supplyCount[copper];
+  int preSilverCount = testState->supplyCount[silver];
+  int preGoldCount = testState->supplyCount[gold];
 
   // play card with randomized state
-  cardEffect(adventurer, choice1, choice2, choice3, testState, handPos, &bonus);
+  int result = cardEffect(adventurer, choice1, choice2, choice3, testState, handPos, &bonus);
 
-  ////////////
-  // ORACLE //
-  ////////////
+  // ** ORACLE ** //
 
   // post-state values
   int postDeckCount = testState->deckCount[player];
@@ -148,48 +174,70 @@ void test_randomized_adventurer(struct gameState* testState) {
       postTreasureCount++;
     }
   }
+  int postWhoseTurn = testState->whoseTurn;
+  int postPhase = testState->phase;
+  int postNumActions = testState->numActions;
+  int postPlayedCardCount = testState->playedCardCount;
+  int postCoinCount = testState->coins;
+  int postNumBuys = testState->numBuys;
+  int postCopperCount = testState->supplyCount[copper];
+  int postSilverCount = testState->supplyCount[silver];
+  int postGoldCount = testState->supplyCount[gold];
+
+  // result is 0
+  j_assert(result == 0, results);
 
   // deck and discard together lost 2 cards, which go to hand
-  j_assert((preDeckCount + preDiscardCount - 2) == (postDeckCount + postDiscardCount));
-  if((preDeckCount + preDiscardCount - 2) != (postDeckCount + postDiscardCount)) {
-    printf("\n");
-    printf("Pre Deck Count: %i\n", preDeckCount);
-    printf("Pre Discard Count: %i\n", preDiscardCount);
-    printf("Post Deck Count: %i\n", postDeckCount);
-    printf("Post Discard Count: %i\n", postDiscardCount);
-  }
+  j_assert((preDeckCount + preDiscardCount - 2) == (postDeckCount + postDiscardCount), results);
 
   // hand grows by 2 cards
-  j_assert((preHandCount + 2) == postHandCount);
-  if((preHandCount + 2) != postHandCount) {
-    printf("\n");
-    printf("Pre Hand Count: %i\n", preHandCount);
-    printf("Post Hand Count: %i\n", postHandCount);
-  }
+  j_assert((preHandCount + 2) == postHandCount, results);
 
   // treasure in hand increases by 2
-  j_assert((preTreasureCount + 2) == postTreasureCount);
-  if((preTreasureCount + 2) != postTreasureCount) {
-    printf("\n");
-    printf("Pre Treasure Count: %i\n", preTreasureCount);
-    printf("Post Treasure Count: %i\n", postTreasureCount);
-  }
+  j_assert((preTreasureCount + 2) == postTreasureCount, results);
+
+  // whose turn not altered
+  j_assert(preWhoseTurn == postWhoseTurn, results);
+
+  // phase is not altered
+  j_assert(prePhase == postPhase, results);
+
+  // numActions is not altered
+  j_assert(preNumActions == postNumActions, results);
+
+  // played cards count not altered
+  j_assert(prePlayedCardCount == postPlayedCardCount, results);
+
+  // coin count not altered
+  j_assert(preCoinCount == postCoinCount, results);
+
+  // numBuys count is not altered
+  j_assert(preNumBuys == postNumBuys, results);
+
+  // treasure supplies are not depleted
+  j_assert(preCopperCount == postCopperCount, results);
+  j_assert(preSilverCount == postSilverCount, results);
+  j_assert(preGoldCount == postGoldCount, results);
 }
 
 // random test generator
 void random_tests() {
+  // gamestate for testing
   struct gameState testState;
+
+  // track test results
+  struct testResults results = { 0, 0 };
 
   // number of times random test run
   int i = 0;
   for(i = 0;i < RANDOM_RUNS;i++) {
 
     // randomize and test
-    test_randomized_adventurer(&testState);
+    test_randomized_adventurer(&testState, &results);
   }
 
-  // go to next line
-  printf("\n");
+  // print test results
+  print_test_results(&results);
 }
 
 int main() {
