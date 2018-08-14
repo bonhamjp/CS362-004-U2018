@@ -143,7 +143,7 @@ public class UrlValidatorTest {
        }
 
        try {
-           collector.checkThat("https:123.123.123.123:12345/home.html", UV.isValid("https:123.123.123.123:12345/home.html"), CoreMatchers.equalTo(true));
+           collector.checkThat("https://123.123.123.123:12345/home.html", UV.isValid("https://123.123.123.123:12345/home.html"), CoreMatchers.equalTo(true));
        } catch (Throwable t) {
            collector.addError(t);
        }
@@ -161,7 +161,7 @@ public class UrlValidatorTest {
        }
 
        try {
-           collector.checkThat("http://osu-cs.slack.com/...messages/", UV.isValid("https://osu-cs.slack.com/...messages/"), CoreMatchers.equalTo(false));
+           collector.checkThat("http://osu-cs.slack.com/../messages/", UV.isValid("https://osu-cs.slack.com/../messages/"), CoreMatchers.equalTo(false));
        } catch (Throwable t) {
            collector.addError(t);
        }
